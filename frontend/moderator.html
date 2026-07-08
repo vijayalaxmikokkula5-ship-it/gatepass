@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moderator - Review Passes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to Home</a>
+    
+    <div class="header">
+      <h1>👔 Moderator Portal</h1>
+      <p>Review and approve/reject gate pass requests</p>
+    </div>
+
+    <div id="alertBox"></div>
+
+    <div style="text-align: center; margin-bottom: 30px;">
+      <button class="btn" onclick="loadPasses('pending')">Pending Requests</button>
+      <button class="btn btn-secondary" onclick="loadPasses('all')">All Passes</button>
+    </div>
+
+    <div id="passesList"></div>
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost:3000/api';
+
+    async function loadPasses(filter) {
+      try {
+        const url = filter === 'pending' 
+          ? `${API_URL}/passes?status=pending`
+          : `${API_URL}/passes`;
+        
+        const response = await fetch(url);
+        const result = await response.json();
+
+        const listDiv = document.getElementById('passesList');
+        
+        if (result.passes.length === 0) {
+          listDiv.innerHTML = '<p style="text-align:center; color:#666;">No passes found.</p>';
+          return;
+        }
+
+        listDiv.innerHTML = '<h2 style="color:#8f191d; margin-bottom:20px;">Gate Pass Requests</h2>';
+        
+        result.passes.forEach(pass => {
+          listDiv.innerHTML += `
+            <div class="card">
+              <h3>Pass ID: ${pass.id}</h3>
+              <p><strong>Student:</strong> ${pass.studentName} (${pass.rollNumber})</p>
+              <p><strong>Reason:</strong> ${pass.reason}</p>
+              <p><strong>Requested:</strong> ${new Date(pass.requestDate).toLocaleString()}</p>
+              <p><strong>Status:</strong> <span class="status-badge status-${pass.status}">${pass.status.toUpperCase()}</span></p>
+              
+              ${pass.status === 'pending' ? `
+                <div style="margin-top: 15px;">
+                  <input type="text" id="remarks-${pass.id}" placeholder="Enter remarks (optional)" 
+                         style="width: 100%; padding: 8px; margin-bottom: 10px; border: 2px solid #e0e0e0; border-radius: 5px;">
+                  <button class="btn" onclick="moderatePass('${pass.id}', 'approve')">✅ Approve</button>
+                  <button class="btn" style="background: #dc3545;" onclick="moderatePass('${pass.id}', 'reject')">❌ Reject</button>
+                </div>
+              ` : ''}
+              
+              ${pass.moderatorRemarks ? `<p style="margin-top:10px;"><strong>Remarks:</strong> ${pass.moderatorRemarks}</p>` : ''}
+            </div>
+          `;
+        });
+      } catch (error) {
+        showAlert('error', 'Could not connect to server');
+      }
+    }
+
+    async function moderatePass(passId, action) {
+      const remarks = document.getElementById(`remarks-${passId}`).value;
+      
+      try {
+        const response = await fetch(`${API_URL}/passes/${passId}/moderate`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action, remarks })
+        });
+
+        const result = await response.json();
+        
+        if (response.ok) {
+          showAlert('success', result.message);
+          loadPasses('pending');
+        } else {
+          showAlert('error', result.error);
+        }
+      } catch (error) {
+        showAlert('error', 'Could not connect to server');
+      }
+    }
+
+    function showAlert(type, message) {
+      const alertBox = document.getElementById('alertBox');
+      alertBox.innerHTML = `<div class="alert alert-${type === 'success' ? 'success' : 'error'}">${message}</div>`;
+      setTimeout(() => alertBox.innerHTML = '', 5000);
+    }
+
+    // Load pending passes by default
+    loadPasses('pending');
+  </script>
+</body>
+</html>

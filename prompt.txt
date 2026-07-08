@@ -1,0 +1,14 @@
+forms.gle/zDBf5EFNTbeyhc6N7
+
+
+i want to build a gate pass management system / appointment booking application system for clg. we have three sides of this app: student,moderator(permission giver),gate keeper.
+
+Student:
+	-request the reason
+Moderator:
+	-accept or reject with a remarks
+Gate keeper:
+	-scan the student id to allow or not
+i strictly want you use poppins, fonts, minimalist theme and colours in the background or fonts colours should be very light wheat colour,white,#8f191d colour,#03505d
+i am a complete beginner i have no idea of even using code,postman also
+so give me clear setp wise approach to complete this website end to end using html,css,js and in backend use only file nodejs(main.js) i don't have nodejs also in my laptop i never used npm in my life time so far so give me clear step from creating folder names,file names and when to run, what how to run each step 

@@ -1,0 +1,154 @@
+{
+  "passes": [
+    {
+      "id": "PASS-1761371592262-he61h4yk1",
+      "studentId": "6708",
+      "studentName": "vijay",
+      "rollNumber": "6708",
+      "reason": "emergency\n",
+      "status": "used",
+      "requestDate": "2025-10-25T05:53:12.262Z",
+      "moderatorRemarks": null,
+      "approvedDate": "2025-10-25T05:53:37.364Z",
+      "usedDate": "2025-10-25T06:17:45.600Z"
+    },
+    {
+      "id": "PASS-1761374605839-87a97cd91",
+      "studentId": "student1",
+      "studentName": "John Doe",
+      "rollNumber": "CS101",
+      "reason": "Medical appointment with family doctor",
+      "status": "used",
+      "requestDate": "2025-10-25T06:43:25.839Z",
+      "moderatorRemarks": "Approved for medical reasons",
+      "approvedDate": "2025-10-25T07:01:36.690Z",
+      "usedDate": "2025-10-25T07:17:21.457Z"
+    },
+    {
+      "id": "PASS-1761376879167-ssvkxyfvb",
+      "studentId": "6708",
+      "studentName": "vijay",
+      "rollNumber": "6708",
+      "reason": "high fever",
+      "status": "used",
+      "requestDate": "2025-10-25T07:21:19.167Z",
+      "moderatorRemarks": null,
+      "approvedDate": "2025-10-25T07:22:47.292Z",
+      "usedDate": "2025-10-25T07:23:43.186Z"
+    },
+    {
+      "id": "PASS-1775281248397-kzozf7f7w",
+      "studentId": "101",
+      "studentName": "sriram",
+      "rollNumber": "24l51A0569",
+      "reason": "fever\n",
+      "status": "used",
+      "requestDate": "2026-04-04T05:40:48.397Z",
+      "moderatorRemarks": null,
+      "approvedDate": "2026-04-04T05:40:56.306Z",
+      "usedDate": "2026-04-04T05:41:52.480Z"
+    },
+    {
+      "id": "PASS-1775535003583-x9kkbtv97",
+      "studentId": "108",
+      "studentName": "M.Vennela",
+      "rollNumber": "24L51A0595",
+      "reason": "stomach pain",
+      "status": "used",
+      "requestDate": "2026-04-07T04:10:03.583Z",
+      "moderatorRemarks": null,
+      "approvedDate": "2026-04-07T04:10:40.274Z",
+      "usedDate": "2026-04-07T04:21:02.708Z"
+    },
+    {
+      "id": "PASS-1775535329372-e1s99uc63",
+      "studentId": "100",
+      "studentName": "K.Purnima Durga",
+      "rollNumber": "24L51A0573",
+      "reason": "vomitings",
+      "status": "rejected",
+      "requestDate": "2026-04-07T04:15:29.372Z",
+      "moderatorRemarks": null,
+      "approvedDate": "2026-04-07T04:15:37.759Z",
+      "usedDate": null
+    },
+    {
+      "id": "PASS-1775535535911-te264r00i",
+      "studentId": "150",
+      "studentName": "K.Vijaya laxmi",
+      "rollNumber": "24L51A0569",
+      "reason": "GOING TO RELATIVES HOUSE",
+      "status": "used",
+      "requestDate": "2026-04-07T04:18:55.911Z",
+      "moderatorRemarks": null,
+      "approvedDate": "2026-04-07T04:19:13.443Z",
+      "usedDate": "2026-04-07T04:20:20.942Z"
+    },
+    {
+      "id": "PASS-1776486154329-w5ohpsjw6",
+      "studentId": "90",
+      "studentName": "k.ragini",
+      "rollNumber": "24l51a0570",
+      "reason": "shopping\n",
+      "status": "used",
+      "requestDate": "2026-04-18T04:22:34.329Z",
+      "moderatorRemarks": null,
+      "approvedDate": "2026-04-18T04:22:43.687Z",
+      "usedDate": "2026-04-18T04:23:23.066Z"
+    },
+    {
+      "id": "PASS-1776752313212-rmwlodw31",
+      "studentId": "45",
+      "studentName": "sneha",
+      "rollNumber": "69",
+      "reason": "fever",
+      "status": "used",
+      "requestDate": "2026-04-21T06:18:33.212Z",
+      "moderatorRemarks": null,
+      "approvedDate": "2026-04-21T06:19:08.163Z",
+      "usedDate": "2026-04-21T06:20:33.992Z"
+    },
+    {
+      "id": "PASS-1777002024367-bqmkc84ze",
+      "studentId": "07",
+      "studentName": "Akki",
+      "rollNumber": "CS09",
+      "reason": "shopping",
+      "status": "used",
+      "requestDate": "2026-04-24T03:40:24.368Z",
+      "moderatorRemarks": null,
+      "approvedDate": "2026-04-24T03:40:34.530Z",
+      "usedDate": "2026-04-24T03:41:11.396Z"
+    },
+    {
+      "id": "PASS-1777529645598-5hn853gkx",
+      "studentId": "67",
+      "studentName": "VENNELA",
+      "rollNumber": "90",
+      "reason": "FEVER",
+      "status": "used",
+      "requestDate": "2026-04-30T06:14:05.598Z",
+      "moderatorRemarks": null,
+      "approvedDate": "2026-04-30T06:14:12.639Z",
+      "usedDate": "2026-04-30T06:14:43.396Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "student1",
+      "role": "student",
+      "name": "John Doe",
+      "rollNumber": "CS101"
+    },
+    {
+      "id": "mod1",
+      "role": "moderator",
+      "name": "Dr. Smith"
+    },
+    {
+      "id": "gate1",
+      "role": "gatekeeper",
+      "name": "Security Guard"
+    }
+  ]
+}

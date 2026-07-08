@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gate Keeper - Verify Passes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to Home</a>
+    
+    <div class="header">
+      <h1>🚪 Gate Keeper Portal</h1>
+      <p>Verify and mark gate passes</p>
+    </div>
+
+    <div id="alertBox"></div>
+
+    <div class="form-group">
+      <label for="passId">Enter Pass ID</label>
+      <input type="text" id="passId" placeholder="e.g., PASS-1234567890-abc123" required>
+    </div>
+
+    <div style="text-align: center;">
+      <button class="btn" onclick="verifyPass()">🔍 Verify Pass</button>
+    </div>
+
+    <div id="passDetails" style="margin-top: 40px;"></div>
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost:3000/api';
+
+    async function verifyPass() {
+      const passId = document.getElementById('passId').value.trim();
+      
+      if (!passId) {
+        showAlert('error', 'Please enter a Pass ID');
+        return;
+      }
+
+      try {
+        // First, get pass details
+        const getResponse = await fetch(`${API_URL}/passes/${passId}`);
+        
+        if (!getResponse.ok) {
+          showAlert('error', 'Pass not found');
+          document.getElementById('passDetails').innerHTML = '';
+          return;
+        }
+
+        const getResult = await getResponse.json();
+        const pass = getResult.pass;
+
+        // Display pass details
+        displayPassDetails(pass);
+
+        // If approved and not used, show verify button
+        if (pass.status === 'approved' && !pass.usedDate) {
+          showAlert('success', 'Pass is valid and approved!');
+        } else if (pass.status === 'used') {
+          showAlert('error', 'Pass has already been used!');
+        } else if (pass.status === 'rejected') {
+          showAlert('error', 'Pass was rejected!');
+        } else if (pass.status === 'pending') {
+          showAlert('error', 'Pass is still pending approval!');
+        }
+
+      } catch (error) {
+        showAlert('error', 'Could not connect to server');
+      }
+    }
+
+    function displayPassDetails(pass) {
+      const detailsDiv = document.getElementById('passDetails');
+      
+      detailsDiv.innerHTML = `
+        <div class="card" style="background: white; border: 3px solid ${pass.status === 'approved' ? '#28a745' : '#dc3545'};">
+          <h2 style="color: #8f191d; margin-bottom: 20px;">Pass Details</h2>
+          <p><strong>Pass ID:</strong> ${pass.id}</p>
+          <p><strong>Student:</strong> ${pass.studentName} (${pass.rollNumber})</p>
+          <p><strong>Reason:</strong> ${pass.reason}</p>
+          <p><strong>Requested:</strong> ${new Date(pass.requestDate).toLocaleString()}</p>
+          <p><strong>Status:</strong> <span class="status-badge status-${pass.status}">${pass.status.toUpperCase()}</span></p>
+          
+          ${pass.approvedDate ? `<p><strong>Approved:</strong> ${new Date(pass.approvedDate).toLocaleString()}</p>` : ''}
+          ${pass.usedDate ? `<p><strong>Used:</strong> ${new Date(pass.usedDate).toLocaleString()}</p>` : ''}
+          ${pass.moderatorRemarks ? `<p><strong>Remarks:</strong> ${pass.moderatorRemarks}</p>` : ''}
+          
+          ${pass.status === 'approved' && !pass.usedDate ? `
+            <div style="margin-top: 20px; text-align: center;">
+              <button class="btn" onclick="markAsUsed('${pass.id}')">✅ Mark as Used</button>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    async function markAsUsed(passId) {
+      try {
+        const response = await fetch(`${API_URL}/passes/${passId}/verify`, {
+          method: 'PUT'
+        });
+
+        const result = await response.json();
+        
+        if (response.ok) {
+          showAlert('success', 'Pass marked as used successfully!');
+          // Refresh pass details
+          setTimeout(() => verifyPass(), 1000);
+        } else {
+          showAlert('error', result.error);
+        }
+      } catch (error) {
+        showAlert('error', 'Could not connect to server');
+      }
+    }
+
+    function showAlert(type, message) {
+      const alertBox = document.getElementById('alertBox');
+      alertBox.innerHTML = `<div class="alert alert-${type === 'success' ? 'success' : 'error'}">${message}</div>`;
+      setTimeout(() => alertBox.innerHTML = '', 5000);
+    }
+  </script>

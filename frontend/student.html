@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student - Request Gate Pass</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to Home</a>
+    
+    <div class="header">
+      <h1>👨‍🎓 Student Portal</h1>
+      <p>Request a new gate pass</p>
+    </div>
+
+    <div id="alertBox"></div>
+
+    <form id="requestForm">
+      <div class="form-group">
+        <label for="studentId">Student ID</label>
+        <input type="text" id="studentId" required placeholder="e.g., student1">
+      </div>
+
+      <div class="form-group">
+        <label for="studentName">Full Name</label>
+        <input type="text" id="studentName" required placeholder="e.g., John Doe">
+      </div>
+
+      <div class="form-group">
+        <label for="rollNumber">Roll Number</label>
+        <input type="text" id="rollNumber" required placeholder="e.g., CS101">
+      </div>
+
+      <div class="form-group">
+        <label for="reason">Reason for Gate Pass</label>
+        <textarea id="reason" required placeholder="Enter your reason for leaving campus..."></textarea>
+      </div>
+
+      <button type="submit" class="btn">Submit Request</button>
+      <button type="button" class="btn btn-secondary" onclick="viewMyPasses()">View My Passes</button>
+    </form>
+
+    <div id="myPasses" style="margin-top: 40px;"></div>
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost:3000/api';
+
+    document.getElementById('requestForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const data = {
+        studentId: document.getElementById('studentId').value,
+        studentName: document.getElementById('studentName').value,
+        rollNumber: document.getElementById('rollNumber').value,
+        reason: document.getElementById('reason').value
+      };
+
+      try {
+        const response = await fetch(`${API_URL}/passes/create`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        
+        if (response.ok) {
+          showAlert('success', `Gate pass created successfully! Pass ID: ${result.pass.id}`);
+          document.getElementById('requestForm').reset();
+          viewMyPasses();
+        } else {
+          showAlert('error', result.error);
+        }
+      } catch (error) {
+        showAlert('error', 'Could not connect to server. Make sure backend is running.');
+      }
+    });
+
+    async function viewMyPasses() {
+      const studentId = document.getElementById('studentId').value;
+      if (!studentId) {
+        showAlert('error', 'Please enter your Student ID first');
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_URL}/passes?studentId=${studentId}`);
+        const result = await response.json();
+
+        const passesDiv = document.getElementById('myPasses');
+        if (result.passes.length === 0) {
+          passesDiv.innerHTML = '<p style="text-align:center; color:#666;">No passes found.</p>';
+          return;
+        }
+
+        passesDiv.innerHTML = '<h2 style="color:#8f191d; margin-bottom:20px;">My Gate Passes</h2>';
+        result.passes.forEach(pass => {
+          passesDiv.innerHTML += `
+            <div class="card">
+              <h3>Pass ID: ${pass.id}</h3>
+              <p><strong>Reason:</strong> ${pass.reason}</p>
+              <p><strong>Requested:</strong> ${new Date(pass.requestDate).toLocaleString()}</p>
+              <p><strong>Status:</strong> <span class="status-badge status-${pass.status}">${pass.status.toUpperCase()}</span></p>
+              ${pass.moderatorRemarks ? `<p><strong>Moderator Remarks:</strong> ${pass.moderatorRemarks}</p>` : ''}
+            </div>
+          `;
+        });
+      } catch (error) {
+        showAlert('error', 'Could not fetch passes');
+      }
+    }
+
+    function showAlert(type, message) {
+      const alertBox = document.getElementById('alertBox');
+      alertBox.innerHTML = `<div class="alert alert-${type === 'success' ? 'success' : 'error'}">${message}</div>`;
+      setTimeout(() => alertBox.innerHTML = '', 5000);
+    }
+  </script>
+</body>
+</html>
