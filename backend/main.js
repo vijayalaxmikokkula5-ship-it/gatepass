@@ -170,12 +170,12 @@ app.put('/api/passes/:id/verify', (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+});
 
 // Start server
 app.listen(PORT, () => {
-  app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index.html'));
-});
   console.log(`✅ Server running on http://localhost:${PORT}`);
   console.log(`📊 Database: ${DB_PATH}`);
 });
