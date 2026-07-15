@@ -11,6 +11,7 @@ const DB_PATH = path.join(__dirname, 'database.json');
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Helper function to read database
 function readDatabase() {
@@ -172,6 +173,9 @@ app.put('/api/passes/:id/verify', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
+  app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+});
   console.log(`✅ Server running on http://localhost:${PORT}`);
   console.log(`📊 Database: ${DB_PATH}`);
 });
