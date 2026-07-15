@@ -33,6 +33,8 @@ gatepass/
 - Mobile Responsive Design
 ## 👥 Team Project
 This project was developed as part of a college group project. I was responsible for most of the application development, including implementing the core features and integrating different modules, while my teammates contributed to testing, discussions, and other project-related tasks.
+## 🚀 Live Demo
+🔗 https://gatepass-txz4.onrender.com
 ## 📷 Screenshots
 ### 🏠 Home Page
 ![Home Page](Screenshot%202026-04-21%20114739.png)
@@ -44,8 +46,8 @@ This project was developed as part of a college group project. I was responsible
 ![Gatekeeper Dashboard](Screenshot%202026-04-21%20115026.png)
 ### 📝 Gate Pass Request
 ![Gate Pass Request](Screenshot%202026-04-21%20115109.png)
-*(We'll add the image links after the screenshots are uploaded.)*
 ## 👩‍💻 Author
 **K. Vijaya Laxmi**
 - Role: Lead Contributor (Group Project)
 - GitHub: https://github.com/vijayalaxmikokkula5-ship-it
+
